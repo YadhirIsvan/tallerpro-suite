@@ -4,13 +4,19 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-// Pages
-import LandingPage from "./pages/LandingPage";
+// Promo Pages
+import HomePage from "./pages/promo/HomePage";
+import FeaturesPage from "./pages/promo/FeaturesPage";
+import BenefitsPage from "./pages/promo/BenefitsPage";
+import DemoPage from "./pages/promo/DemoPage";
+import ContactPage from "./pages/promo/ContactPage";
+
+// Auth Pages
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import NotFound from "./pages/NotFound";
 
-// Admin Layout and Pages
+// Admin Layout and Pages (for the actual app)
 import { AdminLayout } from "./components/admin/AdminLayout";
 import DashboardPage from "./pages/admin/DashboardPage";
 import AppointmentsPage from "./pages/admin/AppointmentsPage";
@@ -32,12 +38,18 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<LandingPage />} />
+          {/* Promotional Website Routes */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/caracteristicas" element={<FeaturesPage />} />
+          <Route path="/beneficios" element={<BenefitsPage />} />
+          <Route path="/demo" element={<DemoPage />} />
+          <Route path="/contacto" element={<ContactPage />} />
+          
+          {/* Auth Routes */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           
-          {/* Admin Routes */}
+          {/* Admin App Routes (the actual application) */}
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<DashboardPage />} />
             <Route path="citas" element={<AppointmentsPage />} />
