@@ -63,6 +63,11 @@ export function PromoNavbar() {
         >
           {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </Button>
+        
+        {/* Company Badge */}
+        <span className="hidden lg:block text-xs text-muted-foreground">
+          by <span className="font-medium">PallaresCorp</span>
+        </span>
       </div>
       
       {/* Mobile Menu */}

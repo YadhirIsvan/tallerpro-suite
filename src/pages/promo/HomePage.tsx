@@ -4,6 +4,8 @@ import { ArrowRight, Play, CheckCircle, Star, Users, TrendingUp, Clock } from 'l
 import { useNavigate } from 'react-router-dom';
 import { PromoNavbar } from '@/components/promo/PromoNavbar';
 import { PromoFooter } from '@/components/promo/PromoFooter';
+import { BrandCarousel } from '@/components/promo/BrandCarousel';
+import { VideoSection } from '@/components/promo/VideoSection';
 
 const stats = [
   { number: '500+', label: 'Talleres activos', icon: Users },
@@ -63,7 +65,7 @@ const HomePage = () => {
               
               <h1 className="mb-6 text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
                 Transforma tu taller con{' '}
-                <span className="text-gradient">TallerPro</span>
+                <span className="text-gradient">autotronia.com</span>
               </h1>
               
               <p className="mb-8 text-lg text-muted-foreground sm:text-xl max-w-xl">
@@ -121,7 +123,7 @@ const HomePage = () => {
                   <div className="h-3 w-3 rounded-full bg-destructive/60" />
                   <div className="h-3 w-3 rounded-full bg-yellow-500/60" />
                   <div className="h-3 w-3 rounded-full bg-green-500/60" />
-                  <span className="ml-4 text-xs text-muted-foreground">dashboard.tallerpro.com</span>
+                  <span className="ml-4 text-xs text-muted-foreground">app.autotronia.com</span>
                 </div>
                 <div className="aspect-[4/3] overflow-hidden rounded-lg bg-sidebar">
                   {/* Simulated Dashboard */}
@@ -148,7 +150,7 @@ const HomePage = () => {
                       </div>
                       {/* Kanban Preview */}
                       <div className="grid grid-cols-5 gap-2">
-                        {['diagnosis', 'approval', 'progress', 'quality', 'ready'].map((status, i) => (
+                        {['diagnosis', 'approval', 'progress', 'quality', 'ready'].map((status) => (
                           <div key={status} className="h-32 rounded-lg bg-muted/50 p-2">
                             <div className="h-2 w-full rounded bg-primary/30 mb-2" />
                             {[1, 2].map((card) => (
@@ -228,8 +230,14 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+
+      {/* Brand Carousel */}
+      <BrandCarousel />
+
+      {/* Video Section */}
+      <VideoSection />
       
-      {/* What is TallerPro Section */}
+      {/* What is autotronia.com Section */}
       <section className="py-24">
         <div className="container mx-auto px-4">
           <motion.div
@@ -238,12 +246,12 @@ const HomePage = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <span className="text-sm font-medium text-primary mb-2 block">¿QUÉ ES TALLERPRO?</span>
+            <span className="text-sm font-medium text-primary mb-2 block">¿QUÉ ES AUTOTRONIA.COM?</span>
             <h2 className="text-3xl font-bold text-foreground sm:text-4xl mb-4">
               El sistema completo para tu taller
             </h2>
             <p className="max-w-2xl mx-auto text-muted-foreground text-lg">
-              TallerPro es una plataforma integral que conecta a dueños de talleres, mecánicos, 
+              autotronia.com es una plataforma integral que conecta a dueños de talleres, mecánicos, 
               asesores y clientes en un solo ecosistema digital moderno.
             </p>
           </motion.div>
@@ -318,7 +326,7 @@ const HomePage = () => {
               ¿Listo para transformar tu taller?
             </h2>
             <p className="max-w-xl mx-auto text-muted-foreground mb-8">
-              Únete a cientos de talleres que ya están usando TallerPro para crecer su negocio.
+              Únete a cientos de talleres que ya están usando autotronia.com para crecer su negocio.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" onClick={() => navigate('/demo')}>

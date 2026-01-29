@@ -397,7 +397,7 @@ const FeaturesPage = () => {
               ¿Te convencimos?
             </h2>
             <p className="max-w-xl mx-auto text-muted-foreground mb-8">
-              Prueba TallerPro gratis por 14 días y descubre cómo puede transformar tu taller.
+              Prueba autotronia.com gratis por 14 días y descubre cómo puede transformar tu taller.
             </p>
             <Button size="lg" onClick={() => navigate('/demo')} className="group">
               Ver Demo Interactiva

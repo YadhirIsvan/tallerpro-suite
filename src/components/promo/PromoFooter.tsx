@@ -135,13 +135,20 @@ export function PromoFooter() {
         </div>
         
         {/* Bottom */}
-        <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-muted-foreground">
-            © 2025 TallerPro. Todos los derechos reservados.
-          </p>
-          <p className="text-sm text-muted-foreground">
-            Hecho con ❤️ en México
-          </p>
+        <div className="mt-12 pt-8 border-t border-border">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="text-center md:text-left">
+              <p className="text-sm text-muted-foreground">
+                © 2025 autotronia.com. Todos los derechos reservados.
+              </p>
+              <p className="text-sm text-muted-foreground mt-1">
+                Un producto de <span className="font-semibold text-foreground">PallaresCorp</span>
+              </p>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Hecho con ❤️ en México
+            </p>
+          </div>
         </div>
       </div>
     </footer>

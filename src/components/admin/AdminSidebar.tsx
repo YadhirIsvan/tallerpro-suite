@@ -56,14 +56,14 @@ export function AdminSidebar({ isCollapsed, onToggle }: AdminSidebarProps) {
             <Wrench className="h-5 w-5 text-primary-foreground" />
           </div>
         ) : (
-          <Link to="/admin" className="flex items-center gap-2">
+          <button onClick={() => {}} className="flex items-center gap-2">
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
               <Wrench className="h-5 w-5 text-primary-foreground" />
             </div>
             <span className="text-lg font-bold text-sidebar-accent-foreground">
-              Taller<span className="text-sidebar-primary">Pro</span>
+              autotronia<span className="text-sidebar-primary">.com</span>
             </span>
-          </Link>
+          </button>
         )}
       </div>
       

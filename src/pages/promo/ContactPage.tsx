@@ -83,7 +83,7 @@ const ContactPage = () => {
               </h2>
               <p className="text-muted-foreground mb-8">
                 Ya sea que tengas preguntas sobre nuestros planes, necesites una 
-                demo personalizada o quieras hablar sobre cómo TallerPro puede 
+                demo personalizada o quieras hablar sobre cómo autotronia.com puede 
                 ayudar a tu negocio, estamos aquí para ti.
               </p>
               
@@ -95,7 +95,7 @@ const ContactPage = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-foreground">Email</h3>
-                    <p className="text-muted-foreground">ventas@tallerpro.com</p>
+                    <p className="text-muted-foreground">ventas@autotronia.com</p>
                     <p className="text-sm text-muted-foreground">Respondemos en menos de 24 horas</p>
                   </div>
                 </div>

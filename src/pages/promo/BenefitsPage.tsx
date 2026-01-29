@@ -12,7 +12,7 @@ const ownerBenefits = [
   {
     icon: TrendingUp,
     title: 'Aumenta tus Ingresos',
-    description: 'Talleres usando TallerPro reportan hasta 35% más órdenes completadas por mes gracias a la eficiencia operativa.',
+    description: 'Talleres usando autotronia.com reportan hasta 35% más órdenes completadas por mes gracias a la eficiencia operativa.',
     stat: '+35%',
     statLabel: 'más órdenes/mes',
   },
@@ -95,7 +95,7 @@ const BenefitsPage = () => {
               Gana más, trabaja menos, <span className="text-gradient">crece tu negocio</span>
             </h1>
             <p className="max-w-2xl mx-auto text-muted-foreground text-lg">
-              TallerPro no es solo software, es una inversión que se paga sola. 
+              autotronia.com no es solo software, es una inversión que se paga sola. 
               Descubre cómo beneficia a tu taller y a tus clientes.
             </p>
           </motion.div>
@@ -116,7 +116,7 @@ const BenefitsPage = () => {
               Beneficios que impactan tu bolsillo
             </h2>
             <p className="max-w-2xl text-muted-foreground">
-              Cada función de TallerPro está diseñada para ahorrarte dinero, tiempo o ambos.
+              Cada función de autotronia.com está diseñada para ahorrarte dinero, tiempo o ambos.
             </p>
           </motion.div>
           
@@ -170,7 +170,7 @@ const BenefitsPage = () => {
               </h2>
               <p className="text-muted-foreground mb-8">
                 Cuando tus clientes tienen una buena experiencia, te recomiendan y vuelven. 
-                TallerPro les da herramientas que los hacen sentir especiales.
+                autotronia.com les da herramientas que los hacen sentir especiales.
               </p>
               
               <div className="space-y-6">
