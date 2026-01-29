@@ -1,9 +1,11 @@
 import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, Play } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export function HeroSection() {
+  const navigate = useNavigate();
+  
   return (
     <section className="hero-gradient relative min-h-screen overflow-hidden pt-16">
       {/* Background decorative elements */}
@@ -54,12 +56,14 @@ export function HeroSection() {
             transition={{ delay: 0.4 }}
             className="flex flex-col items-center justify-center gap-4 sm:flex-row"
           >
-            <Link to="/register">
-              <Button size="lg" className="group h-12 px-8 text-base">
-                Comenzar Gratis
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Button>
-            </Link>
+            <Button 
+              size="lg" 
+              className="group h-12 px-8 text-base"
+              onClick={() => navigate('/register')}
+            >
+              Comenzar Gratis
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Button>
             <Button size="lg" variant="outline" className="h-12 px-8 text-base">
               <Play className="mr-2 h-4 w-4" />
               Ver Demo
