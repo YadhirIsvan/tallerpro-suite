@@ -1,14 +1,15 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   ArrowRight, Calendar, Car, Users, Package, BarChart3, 
   ClipboardList, Settings, Bell, MessageSquare, FileText,
-  Clock, CheckCircle, Eye, Wrench, Shield, Zap
+  Clock, CheckCircle, Eye, Wrench, Shield, Zap, ChevronLeft, ChevronRight
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { PromoNavbar } from '@/components/promo/PromoNavbar';
 import { PromoFooter } from '@/components/promo/PromoFooter';
+import { useState } from 'react';
 
 const roleFeatures = {
   administrador: {
@@ -161,28 +162,102 @@ const roleFeatures = {
   },
 };
 
+// Calendar mock data
+const calendarAppointments = [
+  { day: 15, time: '10:00', client: 'María García López', vehicle: 'Honda Civic 2022', color: 'bg-primary/80' },
+  { day: 15, time: '14:30', client: 'Carlos Mendoza', vehicle: 'Toyota Camry 2021', color: 'bg-status-approval' },
+  { day: 22, time: '09:00', client: 'Ana Rodríguez', vehicle: 'Nissan Sentra 2023', color: 'bg-status-progress' },
+  { day: 22, time: '11:00', client: 'Roberto Sánchez', vehicle: 'Ford Focus 2020', color: 'bg-primary/80' },
+  { day: 22, time: '16:00', client: 'Laura Martínez', vehicle: 'Mazda 3 2022', color: 'bg-status-approval' },
+  { day: 8, time: '10:30', client: 'Pedro Jiménez', vehicle: 'VW Jetta 2021', color: 'bg-status-progress' },
+];
+
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.5 }
+  }
+};
+
 const FeaturesPage = () => {
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState('administrador');
 
   return (
     <div className="min-h-screen bg-background">
       <PromoNavbar />
       
       {/* Hero */}
-      <section className="pt-24 pb-16 lg:pt-32">
-        <div className="container mx-auto px-4 text-center">
+      <section className="pt-24 pb-16 lg:pt-32 relative overflow-hidden">
+        {/* Animated Background */}
+        <motion.div 
+          className="absolute inset-0 overflow-hidden"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
+          <motion.div 
+            className="absolute -right-40 -top-40 h-96 w-96 rounded-full bg-primary/10 blur-3xl"
+            animate={{ 
+              scale: [1, 1.2, 1],
+              opacity: [0.5, 0.8, 0.5]
+            }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div 
+            className="absolute -bottom-40 -left-40 h-96 w-96 rounded-full bg-primary/10 blur-3xl"
+            animate={{ 
+              scale: [1.2, 1, 1.2],
+              opacity: [0.8, 0.5, 0.8]
+            }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </motion.div>
+
+        <div className="container mx-auto px-4 text-center relative">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
           >
-            <span className="text-sm font-medium text-primary mb-2 block">CARACTERÍSTICAS</span>
-            <h1 className="text-4xl font-bold text-foreground sm:text-5xl mb-4">
+            <motion.span 
+              className="text-sm font-medium text-primary mb-2 block"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2 }}
+            >
+              CARACTERÍSTICAS
+            </motion.span>
+            <motion.h1 
+              className="text-4xl font-bold text-foreground sm:text-5xl mb-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
               Todo lo que necesitas, <span className="text-gradient">en un solo lugar</span>
-            </h1>
-            <p className="max-w-2xl mx-auto text-muted-foreground text-lg">
+            </motion.h1>
+            <motion.p 
+              className="max-w-2xl mx-auto text-muted-foreground text-lg"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+            >
               Descubre las herramientas diseñadas para cada rol en tu taller. 
               Desde el dueño hasta el cliente, todos tienen su espacio.
-            </p>
+            </motion.p>
           </motion.div>
         </div>
       </section>
@@ -190,57 +265,93 @@ const FeaturesPage = () => {
       {/* Role-based Features */}
       <section className="pb-24">
         <div className="container mx-auto px-4">
-          <Tabs defaultValue="administrador" className="w-full">
-            <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-4 mb-12">
-              <TabsTrigger value="administrador" className="text-xs sm:text-sm">
-                🏢 Administrador
-              </TabsTrigger>
-              <TabsTrigger value="asesor" className="text-xs sm:text-sm">
-                💼 Asesor
-              </TabsTrigger>
-              <TabsTrigger value="mecanico" className="text-xs sm:text-sm">
-                🔧 Mecánico
-              </TabsTrigger>
-              <TabsTrigger value="cliente" className="text-xs sm:text-sm">
-                👤 Cliente
-              </TabsTrigger>
-            </TabsList>
-            
-            {Object.entries(roleFeatures).map(([key, role]) => (
-              <TabsContent key={key} value={key}>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+              <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-4 mb-12 p-1 bg-muted/50 backdrop-blur">
+                <TabsTrigger 
+                  value="administrador" 
+                  className="text-xs sm:text-sm data-[state=active]:bg-card data-[state=active]:shadow-md transition-all duration-300"
                 >
-                  {/* Role Header */}
-                  <div className="text-center mb-12">
-                    <h2 className="text-2xl font-bold text-foreground mb-2">{role.title}</h2>
-                    <p className="text-primary font-medium mb-3">{role.subtitle}</p>
-                    <p className="max-w-2xl mx-auto text-muted-foreground">{role.description}</p>
-                  </div>
-                  
-                  {/* Features Grid */}
-                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {role.features.map((feature, index) => (
-                      <motion.div
-                        key={feature.title}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        className="group rounded-xl border border-border bg-card p-6 transition-all duration-300 hover:border-primary/30 hover:shadow-lg"
-                      >
-                        <div className="h-12 w-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4 transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
-                          <feature.icon className="h-6 w-6" />
-                        </div>
-                        <h3 className="text-lg font-semibold text-foreground mb-2">{feature.title}</h3>
-                        <p className="text-sm text-muted-foreground">{feature.description}</p>
-                      </motion.div>
-                    ))}
-                  </div>
-                </motion.div>
-              </TabsContent>
-            ))}
+                  🏢 Administrador
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="asesor" 
+                  className="text-xs sm:text-sm data-[state=active]:bg-card data-[state=active]:shadow-md transition-all duration-300"
+                >
+                  💼 Asesor
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="mecanico" 
+                  className="text-xs sm:text-sm data-[state=active]:bg-card data-[state=active]:shadow-md transition-all duration-300"
+                >
+                  🔧 Mecánico
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="cliente" 
+                  className="text-xs sm:text-sm data-[state=active]:bg-card data-[state=active]:shadow-md transition-all duration-300"
+                >
+                  👤 Cliente
+                </TabsTrigger>
+              </TabsList>
+            </motion.div>
+            
+            <AnimatePresence mode="wait">
+              {Object.entries(roleFeatures).map(([key, role]) => (
+                <TabsContent key={key} value={key}>
+                  <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
+                  >
+                    {/* Role Header */}
+                    <motion.div 
+                      className="text-center mb-12"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.1 }}
+                    >
+                      <h2 className="text-2xl font-bold text-foreground mb-2">{role.title}</h2>
+                      <p className="text-primary font-medium mb-3">{role.subtitle}</p>
+                      <p className="max-w-2xl mx-auto text-muted-foreground">{role.description}</p>
+                    </motion.div>
+                    
+                    {/* Features Grid */}
+                    <motion.div 
+                      className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+                      variants={containerVariants}
+                      initial="hidden"
+                      animate="visible"
+                    >
+                      {role.features.map((feature, index) => (
+                        <motion.div
+                          key={feature.title}
+                          variants={itemVariants}
+                          whileHover="hover"
+                          initial="rest"
+                          animate="rest"
+                          className="group rounded-xl border border-border bg-card p-6 transition-all duration-300 hover:border-primary/30 hover:shadow-xl cursor-pointer"
+                        >
+                          <motion.div 
+                            className="h-12 w-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4 transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground"
+                            whileHover={{ scale: 1.1, rotate: 5 }}
+                            transition={{ type: "spring", stiffness: 400 }}
+                          >
+                            <feature.icon className="h-6 w-6" />
+                          </motion.div>
+                          <h3 className="text-lg font-semibold text-foreground mb-2">{feature.title}</h3>
+                          <p className="text-sm text-muted-foreground">{feature.description}</p>
+                        </motion.div>
+                      ))}
+                    </motion.div>
+                  </motion.div>
+                </TabsContent>
+              ))}
+            </AnimatePresence>
           </Tabs>
         </div>
       </section>
@@ -325,60 +436,219 @@ const FeaturesPage = () => {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
           >
-            <div className="grid lg:grid-cols-2 gap-8 items-center">
-              <div className="order-2 lg:order-1 rounded-xl border border-border bg-card p-4 shadow-lg">
-                {/* Calendar Mockup */}
-                <div className="flex items-center justify-between mb-4">
-                  <span className="font-medium">Enero 2025</span>
-                  <div className="flex gap-2">
-                    <div className="h-6 w-6 rounded bg-muted" />
-                    <div className="h-6 w-6 rounded bg-muted" />
+            <div className="grid lg:grid-cols-2 gap-8 items-start">
+              <motion.div 
+                className="order-2 lg:order-1 rounded-xl border border-border bg-card shadow-xl overflow-hidden"
+                whileHover={{ scale: 1.01 }}
+                transition={{ duration: 0.3 }}
+              >
+                {/* Calendar Header */}
+                <div className="flex items-center justify-between p-4 border-b border-border bg-card">
+                  <div>
+                    <h4 className="text-lg font-bold text-foreground">Calendario de Citas</h4>
+                    <p className="text-xs text-muted-foreground">Gestiona las citas del taller</p>
+                  </div>
+                  <Button size="sm" className="h-8">
+                    + Nueva Cita
+                  </Button>
+                </div>
+                
+                {/* Calendar Navigation */}
+                <div className="flex items-center justify-between px-4 py-3 bg-muted/30">
+                  <motion.button 
+                    className="h-8 w-8 rounded-lg border border-border bg-card flex items-center justify-center hover:bg-muted transition-colors"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </motion.button>
+                  <span className="font-semibold text-foreground">Febrero 2026</span>
+                  <motion.button 
+                    className="h-8 w-8 rounded-lg border border-border bg-card flex items-center justify-center hover:bg-muted transition-colors"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </motion.button>
+                </div>
+                
+                {/* Calendar Grid */}
+                <div className="p-2">
+                  {/* Day Headers */}
+                  <div className="grid grid-cols-7 mb-1">
+                    {['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'].map((d) => (
+                      <div key={d} className="text-center text-xs font-medium text-muted-foreground py-2 border-b border-border">
+                        {d}
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {/* Calendar Days Grid */}
+                  <div className="grid grid-cols-7">
+                    {/* Previous month days */}
+                    {[26, 27, 28, 29, 30, 31].map((day) => (
+                      <div key={`prev-${day}`} className="min-h-[70px] border border-border/50 p-1 bg-muted/20">
+                        <span className="text-xs text-muted-foreground/50">{day}</span>
+                      </div>
+                    ))}
+                    
+                    {/* Current month days */}
+                    {Array.from({ length: 28 }).map((_, i) => {
+                      const day = i + 1;
+                      const appointments = calendarAppointments.filter(a => a.day === day);
+                      const isToday = day === 15;
+                      const isWeekend = (i + 6) % 7 === 0 || (i + 6) % 7 === 6;
+                      
+                      return (
+                        <motion.div 
+                          key={`day-${day}`} 
+                          className={`min-h-[70px] border border-border p-1 cursor-pointer transition-colors ${
+                            isToday ? 'bg-primary/5 border-primary/30' : 
+                            isWeekend ? 'bg-muted/30' : 'bg-card hover:bg-muted/20'
+                          }`}
+                          whileHover={{ backgroundColor: 'hsl(175 45% 42% / 0.05)' }}
+                        >
+                          <div className="flex items-start justify-between">
+                            <span className={`text-sm font-medium ${isToday ? 'text-primary' : 'text-foreground'}`}>
+                              {day}
+                            </span>
+                            {isWeekend && (
+                              <span className="text-[8px] text-destructive/70 font-medium">N/D</span>
+                            )}
+                          </div>
+                          
+                          {/* Appointments */}
+                          <div className="mt-1 space-y-0.5">
+                            {appointments.map((apt, idx) => (
+                              <motion.div
+                                key={idx}
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: idx * 0.1 }}
+                                className={`${apt.color} text-primary-foreground rounded px-1 py-0.5 text-[8px] truncate`}
+                              >
+                                <div className="flex items-center gap-0.5">
+                                  <Clock className="h-2 w-2" />
+                                  <span>{apt.time}</span>
+                                </div>
+                                <p className="font-medium truncate">{apt.client}</p>
+                                <p className="opacity-80 truncate">{apt.vehicle}</p>
+                              </motion.div>
+                            ))}
+                          </div>
+                        </motion.div>
+                      );
+                    })}
                   </div>
                 </div>
-                <div className="grid grid-cols-7 gap-1 text-center text-xs text-muted-foreground mb-2">
-                  {['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'].map((d) => (
-                    <span key={d}>{d}</span>
-                  ))}
-                </div>
-                <div className="grid grid-cols-7 gap-1">
-                  {Array.from({ length: 35 }).map((_, i) => (
-                    <div 
-                      key={i} 
-                      className={`h-10 rounded text-xs flex flex-col items-center justify-center ${
-                        i === 15 ? 'bg-primary text-primary-foreground' : 
-                        [5, 12, 19, 23].includes(i) ? 'bg-primary/10' : 'hover:bg-muted/50'
-                      }`}
-                    >
-                      <span>{i < 3 ? '' : i - 2}</span>
-                      {[5, 12, 19, 23].includes(i) && (
-                        <div className="h-1 w-1 rounded-full bg-primary mt-0.5" />
-                      )}
+                
+                {/* Appointments by Status */}
+                <div className="border-t border-border p-4 bg-muted/20">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Calendar className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm font-medium text-foreground">Citas por Estado</span>
+                  </div>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {[
+                      { label: 'Programadas', count: 3, active: true },
+                      { label: 'Confirmadas', count: 0, active: false },
+                      { label: 'Cliente Llegó', count: 0, active: false },
+                      { label: 'En Taller (OT)', count: 1, active: false },
+                      { label: 'Completadas', count: 2, active: false },
+                      { label: 'Canceladas', count: 0, active: false },
+                    ].map((status) => (
+                      <motion.button
+                        key={status.label}
+                        className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                          status.active 
+                            ? 'bg-primary text-primary-foreground' 
+                            : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                        }`}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        {status.label} {status.count}
+                      </motion.button>
+                    ))}
+                  </div>
+                  
+                  {/* Sample Appointment Card */}
+                  <motion.div 
+                    className="border border-border rounded-lg bg-card p-3"
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                  >
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <Calendar className="h-4 w-4 text-muted-foreground" />
+                        <span className="text-sm font-medium">Programadas</span>
+                        <span className="text-xs text-muted-foreground">• 3 citas</span>
+                      </div>
                     </div>
-                  ))}
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between p-2 rounded-lg bg-muted/30">
+                        <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                            <Clock className="h-3 w-3" />
+                            10:00
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium">María García López</p>
+                            <p className="text-xs text-muted-foreground">Honda Civic 2022</p>
+                          </div>
+                        </div>
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-status-approval/20 text-status-approval font-medium">
+                          scheduled
+                        </span>
+                      </div>
+                    </div>
+                    <Button className="w-full mt-3 h-9" variant="default">
+                      Avanzar a Confirmada
+                    </Button>
+                  </motion.div>
                 </div>
-              </div>
+              </motion.div>
+              
               <div className="order-1 lg:order-2">
-                <h3 className="text-2xl font-bold text-foreground mb-4">
-                  Calendario de Citas Inteligente
-                </h3>
-                <p className="text-muted-foreground mb-6">
-                  Gestiona las citas de tu taller con un calendario visual. 
-                  Tus clientes pueden agendar online y tú apruebas con un clic.
-                </p>
-                <ul className="space-y-3">
-                  {[
-                    'Sincronización con citas online',
-                    'Vista diaria, semanal y mensual',
-                    'Recordatorios automáticos por SMS/WhatsApp',
-                    'Bloqueo de horarios no disponibles',
-                  ].map((item) => (
-                    <li key={item} className="flex items-center gap-2 text-sm">
-                      <Zap className="h-4 w-4 text-primary" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <h3 className="text-2xl font-bold text-foreground mb-4">
+                    Calendario de Citas Inteligente
+                  </h3>
+                  <p className="text-muted-foreground mb-6">
+                    Gestiona las citas de tu taller con un calendario visual profesional. 
+                    Tus clientes pueden agendar online y tú apruebas con un clic.
+                  </p>
+                  <ul className="space-y-3">
+                    {[
+                      'Vista mensual con citas detalladas',
+                      'Filtros por estado de la cita',
+                      'Flujo de avance con un clic',
+                      'Días no disponibles marcados',
+                      'Recordatorios automáticos por SMS/WhatsApp',
+                      'Sincronización con citas online',
+                    ].map((item, index) => (
+                      <motion.li 
+                        key={item} 
+                        className="flex items-center gap-2 text-sm"
+                        initial={{ opacity: 0, x: 10 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: index * 0.1 }}
+                      >
+                        <Zap className="h-4 w-4 text-primary" />
+                        <span>{item}</span>
+                      </motion.li>
+                    ))}
+                  </ul>
+                </motion.div>
               </div>
             </div>
           </motion.div>

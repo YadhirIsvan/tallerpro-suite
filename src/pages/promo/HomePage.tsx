@@ -4,7 +4,6 @@ import { ArrowRight, Play, CheckCircle, Star, Users, TrendingUp, Clock } from 'l
 import { useNavigate } from 'react-router-dom';
 import { PromoNavbar } from '@/components/promo/PromoNavbar';
 import { PromoFooter } from '@/components/promo/PromoFooter';
-import { BrandCarousel } from '@/components/promo/BrandCarousel';
 import { VideoSection } from '@/components/promo/VideoSection';
 
 const stats = [
@@ -230,9 +229,6 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-
-      {/* Brand Carousel */}
-      <BrandCarousel />
 
       {/* Video Section */}
       <VideoSection />
