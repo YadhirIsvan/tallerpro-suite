@@ -1,9 +1,11 @@
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ArrowRight, MessageCircle } from 'lucide-react';
 
 export function CTASection() {
+  const navigate = useNavigate();
+  
   return (
     <section className="cta-section py-24">
       <div className="container mx-auto px-4">
@@ -22,12 +24,14 @@ export function CTASection() {
           </p>
           
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Link to="/register">
-              <Button size="lg" className="group h-12 px-8 text-base">
-                Crear Cuenta Gratis
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Button>
-            </Link>
+            <Button 
+              size="lg" 
+              className="group h-12 px-8 text-base"
+              onClick={() => navigate('/register')}
+            >
+              Crear Cuenta Gratis
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Button>
             <Button size="lg" variant="outline" className="h-12 px-8 text-base">
               <MessageCircle className="mr-2 h-4 w-4" />
               Contactar por WhatsApp

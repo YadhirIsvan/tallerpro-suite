@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/Logo';
 import { Menu, X } from 'lucide-react';
@@ -12,6 +12,7 @@ const navLinks = [
 
 export function LandingNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
   
   return (
     <nav className="fixed left-0 right-0 top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-md">
@@ -33,16 +34,12 @@ export function LandingNavbar() {
         
         {/* Auth Buttons */}
         <div className="hidden items-center gap-3 md:flex">
-          <Link to="/login">
-            <Button variant="ghost" size="sm">
-              Iniciar Sesión
-            </Button>
-          </Link>
-          <Link to="/register">
-            <Button size="sm">
-              Crear Cuenta
-            </Button>
-          </Link>
+          <Button variant="ghost" size="sm" onClick={() => navigate('/login')}>
+            Iniciar Sesión
+          </Button>
+          <Button size="sm" onClick={() => navigate('/register')}>
+            Crear Cuenta
+          </Button>
         </div>
         
         {/* Mobile Menu Button */}
@@ -71,16 +68,12 @@ export function LandingNavbar() {
               </a>
             ))}
             <div className="flex flex-col gap-2 pt-4">
-              <Link to="/login">
-                <Button variant="outline" className="w-full">
-                  Iniciar Sesión
-                </Button>
-              </Link>
-              <Link to="/register">
-                <Button className="w-full">
-                  Crear Cuenta
-                </Button>
-              </Link>
+              <Button variant="outline" className="w-full" onClick={() => { navigate('/login'); setIsMenuOpen(false); }}>
+                Iniciar Sesión
+              </Button>
+              <Button className="w-full" onClick={() => { navigate('/register'); setIsMenuOpen(false); }}>
+                Crear Cuenta
+              </Button>
             </div>
           </div>
         </div>
