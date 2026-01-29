@@ -46,9 +46,6 @@ export function PromoNavbar() {
         
         {/* Auth Buttons */}
         <div className="hidden items-center gap-3 md:flex">
-          <Button variant="ghost" size="sm" onClick={() => navigate('/login')}>
-            Iniciar Sesión
-          </Button>
           <Button size="sm" onClick={() => navigate('/demo')}>
             Prueba Gratis
           </Button>
@@ -94,13 +91,6 @@ export function PromoNavbar() {
                 </button>
               ))}
               <div className="flex flex-col gap-2 pt-4 border-t border-border">
-                <Button 
-                  variant="outline" 
-                  className="w-full" 
-                  onClick={() => { navigate('/login'); setIsMenuOpen(false); }}
-                >
-                  Iniciar Sesión
-                </Button>
                 <Button 
                   className="w-full" 
                   onClick={() => { navigate('/demo'); setIsMenuOpen(false); }}

@@ -356,7 +356,7 @@ const FeaturesPage = () => {
         </div>
       </section>
       
-      {/* Key Modules Section */}
+      {/* Key Modules Section - Only for Admin */}
       <section className="py-24 bg-muted/30">
         <div className="container mx-auto px-4">
           <motion.div
@@ -431,7 +431,7 @@ const FeaturesPage = () => {
             </div>
           </motion.div>
           
-          {/* Calendar Preview */}
+          {/* Calendar Preview - Admin Only */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -464,7 +464,7 @@ const FeaturesPage = () => {
                   >
                     <ChevronLeft className="h-4 w-4" />
                   </motion.button>
-                  <span className="font-semibold text-foreground">Febrero 2026</span>
+                  <span className="font-semibold text-foreground">Enero 2026</span>
                   <motion.button 
                     className="h-8 w-8 rounded-lg border border-border bg-card flex items-center justify-center hover:bg-muted transition-colors"
                     whileHover={{ scale: 1.1 }}
@@ -485,130 +485,68 @@ const FeaturesPage = () => {
                     ))}
                   </div>
                   
-                  {/* Calendar Days Grid */}
+                  {/* Calendar Days Grid - January 2026 starts on Thursday */}
                   <div className="grid grid-cols-7">
-                    {/* Previous month days */}
-                    {[26, 27, 28, 29, 30, 31].map((day) => (
-                      <div key={`prev-${day}`} className="min-h-[70px] border border-border/50 p-1 bg-muted/20">
-                        <span className="text-xs text-muted-foreground/50">{day}</span>
-                      </div>
+                    {/* Previous month empty slots (Thu = 4 empty slots before) */}
+                    {[null, null, null, null].map((_, i) => (
+                      <div key={`empty-${i}`} className="min-h-[60px] border border-border/50 p-1 bg-muted/20" />
                     ))}
                     
-                    {/* Current month days */}
-                    {Array.from({ length: 28 }).map((_, i) => {
+                    {/* Current month days - 31 days */}
+                    {Array.from({ length: 31 }).map((_, i) => {
                       const day = i + 1;
-                      const appointments = calendarAppointments.filter(a => a.day === day);
-                      const isToday = day === 15;
-                      const isWeekend = (i + 6) % 7 === 0 || (i + 6) % 7 === 6;
+                      // Day 29 has appointments based on the reference image
+                      const hasAppointments = day === 29;
+                      const isWeekend = (i + 4) % 7 === 0 || (i + 4) % 7 === 6;
                       
                       return (
                         <motion.div 
                           key={`day-${day}`} 
-                          className={`min-h-[70px] border border-border p-1 cursor-pointer transition-colors ${
-                            isToday ? 'bg-primary/5 border-primary/30' : 
+                          className={`min-h-[60px] border border-border p-1 cursor-pointer transition-colors ${
+                            hasAppointments ? 'bg-primary/5 border-primary/30' : 
                             isWeekend ? 'bg-muted/30' : 'bg-card hover:bg-muted/20'
                           }`}
                           whileHover={{ backgroundColor: 'hsl(175 45% 42% / 0.05)' }}
                         >
                           <div className="flex items-start justify-between">
-                            <span className={`text-sm font-medium ${isToday ? 'text-primary' : 'text-foreground'}`}>
+                            <span className={`text-xs font-medium ${hasAppointments ? 'text-primary' : 'text-foreground'}`}>
                               {day}
                             </span>
                             {isWeekend && (
-                              <span className="text-[8px] text-destructive/70 font-medium">N/D</span>
+                              <span className="text-[8px] text-destructive/70">N/D</span>
                             )}
                           </div>
                           
-                          {/* Appointments */}
-                          <div className="mt-1 space-y-0.5">
-                            {appointments.map((apt, idx) => (
-                              <motion.div
-                                key={idx}
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: idx * 0.1 }}
-                                className={`${apt.color} text-primary-foreground rounded px-1 py-0.5 text-[8px] truncate`}
-                              >
+                          {/* Appointments on day 29 */}
+                          {hasAppointments && (
+                            <div className="mt-1 space-y-0.5">
+                              <div className="bg-status-approval text-white rounded px-1 py-0.5 text-[7px]">
                                 <div className="flex items-center gap-0.5">
                                   <Clock className="h-2 w-2" />
-                                  <span>{apt.time}</span>
+                                  <span>14:00</span>
                                 </div>
-                                <p className="font-medium truncate">{apt.client}</p>
-                                <p className="opacity-80 truncate">{apt.vehicle}</p>
-                              </motion.div>
-                            ))}
-                          </div>
+                                <p className="truncate">YADHIR ISVAN P.</p>
+                              </div>
+                              <div className="bg-primary/80 text-white rounded px-1 py-0.5 text-[7px]">
+                                <div className="flex items-center gap-0.5">
+                                  <Clock className="h-2 w-2" />
+                                  <span>16:00</span>
+                                </div>
+                                <p className="truncate">angel yamir p.</p>
+                              </div>
+                              <div className="bg-green-500/80 text-white rounded px-1 py-0.5 text-[7px]">
+                                <div className="flex items-center gap-0.5">
+                                  <Clock className="h-2 w-2" />
+                                  <span>17:00</span>
+                                </div>
+                                <p className="truncate">angel yamir p.</p>
+                              </div>
+                            </div>
+                          )}
                         </motion.div>
                       );
                     })}
                   </div>
-                </div>
-                
-                {/* Appointments by Status */}
-                <div className="border-t border-border p-4 bg-muted/20">
-                  <div className="flex items-center gap-2 mb-3">
-                    <Calendar className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm font-medium text-foreground">Citas por Estado</span>
-                  </div>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {[
-                      { label: 'Programadas', count: 3, active: true },
-                      { label: 'Confirmadas', count: 0, active: false },
-                      { label: 'Cliente Llegó', count: 0, active: false },
-                      { label: 'En Taller (OT)', count: 1, active: false },
-                      { label: 'Completadas', count: 2, active: false },
-                      { label: 'Canceladas', count: 0, active: false },
-                    ].map((status) => (
-                      <motion.button
-                        key={status.label}
-                        className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
-                          status.active 
-                            ? 'bg-primary text-primary-foreground' 
-                            : 'bg-muted text-muted-foreground hover:bg-muted/80'
-                        }`}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        {status.label} {status.count}
-                      </motion.button>
-                    ))}
-                  </div>
-                  
-                  {/* Sample Appointment Card */}
-                  <motion.div 
-                    className="border border-border rounded-lg bg-card p-3"
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                  >
-                    <div className="flex items-start justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <Calendar className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm font-medium">Programadas</span>
-                        <span className="text-xs text-muted-foreground">• 3 citas</span>
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between p-2 rounded-lg bg-muted/30">
-                        <div className="flex items-center gap-3">
-                          <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                            <Clock className="h-3 w-3" />
-                            10:00
-                          </div>
-                          <div>
-                            <p className="text-sm font-medium">María García López</p>
-                            <p className="text-xs text-muted-foreground">Honda Civic 2022</p>
-                          </div>
-                        </div>
-                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-status-approval/20 text-status-approval font-medium">
-                          scheduled
-                        </span>
-                      </div>
-                    </div>
-                    <Button className="w-full mt-3 h-9" variant="default">
-                      Avanzar a Confirmada
-                    </Button>
-                  </motion.div>
                 </div>
               </motion.div>
               
