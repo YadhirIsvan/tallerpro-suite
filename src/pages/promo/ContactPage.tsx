@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { 
-  Mail, Phone, MapPin, Send, MessageSquare, 
+  Mail, Phone, Send, MessageSquare, 
   Clock, CheckCircle, ArrowRight
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -29,15 +29,45 @@ const ContactPage = () => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    // Validation for required fields
+    if (!formData.name || !formData.email || !formData.phone || !formData.message) {
+      toast({
+        title: "Error",
+        description: "Por favor completa todos los campos obligatorios.",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      // Create mailto link to send email
+      const subject = encodeURIComponent(`Contacto desde autotronia.com - ${formData.name}`);
+      const body = encodeURIComponent(
+        `Nombre: ${formData.name}\n` +
+        `Email: ${formData.email}\n` +
+        `Teléfono: ${formData.phone}\n` +
+        `Nombre del taller: ${formData.workshopName || 'No especificado'}\n\n` +
+        `Mensaje:\n${formData.message}`
+      );
+      
+      // Open mailto link
+      window.location.href = `mailto:autotronia.ventas@gmail.com?subject=${subject}&body=${body}`;
+      
+      toast({
+        title: "¡Redirigiendo!",
+        description: "Se abrirá tu cliente de correo para enviar el mensaje.",
+      });
+      
+      setFormData({ name: '', email: '', phone: '', workshopName: '', message: '' });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Hubo un problema al enviar el mensaje. Intenta de nuevo.",
+        variant: "destructive",
+      });
+    }
     
-    toast({
-      title: "¡Mensaje enviado!",
-      description: "Nos pondremos en contacto contigo pronto.",
-    });
-    
-    setFormData({ name: '', email: '', phone: '', workshopName: '', message: '' });
     setIsSubmitting(false);
   };
 
@@ -95,7 +125,9 @@ const ContactPage = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-foreground">Email</h3>
-                    <p className="text-muted-foreground">ventas@autotronia.com</p>
+                    <a href="mailto:autotronia.ventas@gmail.com" className="text-muted-foreground hover:text-primary transition-colors">
+                      autotronia.ventas@gmail.com
+                    </a>
                     <p className="text-sm text-muted-foreground">Respondemos en menos de 24 horas</p>
                   </div>
                 </div>
@@ -106,7 +138,9 @@ const ContactPage = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-foreground">Teléfono</h3>
-                    <p className="text-muted-foreground">+52 55 1234 5678</p>
+                    <a href="tel:+5212711133218" className="text-muted-foreground hover:text-primary transition-colors">
+                      +52 1 271 113 3218
+                    </a>
                     <p className="text-sm text-muted-foreground">Lun - Vie, 9am - 6pm</p>
                   </div>
                 </div>
@@ -117,7 +151,14 @@ const ContactPage = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-foreground">WhatsApp</h3>
-                    <p className="text-muted-foreground">+52 55 9876 5432</p>
+                    <a 
+                      href="https://wa.me/5212711133218" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      +52 1 271 113 3218
+                    </a>
                     <p className="text-sm text-muted-foreground">Chat directo con ventas</p>
                   </div>
                 </div>
@@ -183,13 +224,14 @@ const ContactPage = () => {
                   
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="phone">Teléfono</Label>
+                      <Label htmlFor="phone">Teléfono *</Label>
                       <Input
                         id="phone"
                         name="phone"
                         placeholder="55 1234 5678"
                         value={formData.phone}
                         onChange={handleChange}
+                        required
                       />
                     </div>
                     <div className="space-y-2">
