@@ -254,7 +254,7 @@ const HomePage = () => {
                 title: 'Para Dueños de Taller',
                 description: 'Control total de tu negocio con métricas en tiempo real, gestión de personal y reportes detallados.',
                 icon: '🏢',
-                features: ['Dashboard ejecutivo', 'Reportes financieros', 'Gestión de empleados', 'Control de inventario'],
+                features: ['Dashboard ejecutivo', 'Reportes financieros', 'Flujo de trabajo optimizado', 'Gestión de empleados', 'Control de inventario'],
               },
               {
                 title: 'Para tu Equipo',

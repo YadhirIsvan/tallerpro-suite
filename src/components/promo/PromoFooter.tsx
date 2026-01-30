@@ -10,10 +10,10 @@ const footerLinks = {
   empresa: [
     { label: 'Contacto', href: '/contacto' },
   ],
-  legal: [
-    { label: 'Privacidad', href: '/privacidad' },
-    { label: 'Términos', href: '/terminos' },
-  ],
+  // legal: [
+  //   { label: 'Privacidad', href: '/privacidad' },
+  //   { label: 'Términos', href: '/terminos' },
+  // ],
 };
 
 export function PromoFooter() {
@@ -65,7 +65,7 @@ export function PromoFooter() {
             </ul>
           </div>
           
-          <div>
+          {/* <div>
             <h3 className="font-semibold text-foreground mb-4">Legal</h3>
             <ul className="space-y-2">
               {footerLinks.legal.map((link) => (
@@ -79,7 +79,7 @@ export function PromoFooter() {
                 </li>
               ))}
             </ul>
-          </div>
+          </div> */}
         </div>
         
         {/* Bottom */}
@@ -93,9 +93,6 @@ export function PromoFooter() {
                 Un producto de <span className="font-semibold text-foreground">PallaresCorp</span>
               </p>
             </div>
-            <p className="text-sm text-muted-foreground">
-              Hecho con ❤️ en México
-            </p>
           </div>
         </div>
       </div>
