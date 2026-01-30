@@ -11,6 +11,46 @@ import { PromoNavbar } from '@/components/promo/PromoNavbar';
 import { PromoFooter } from '@/components/promo/PromoFooter';
 import { useState } from 'react';
 
+// Color themes for each role
+const roleThemes = {
+  administrador: {
+    cardBg: 'bg-card',
+    cardBorder: 'border-primary/20',
+    cardHoverBorder: 'hover:border-primary/50',
+    iconBg: 'bg-primary/10',
+    iconColor: 'text-primary',
+    iconHoverBg: 'group-hover:bg-primary',
+    accentGradient: 'from-primary/5 to-transparent',
+  },
+  asesor: {
+    cardBg: 'bg-card',
+    cardBorder: 'border-blue-500/20',
+    cardHoverBorder: 'hover:border-blue-500/50',
+    iconBg: 'bg-blue-500/10',
+    iconColor: 'text-blue-500',
+    iconHoverBg: 'group-hover:bg-blue-500',
+    accentGradient: 'from-blue-500/5 to-transparent',
+  },
+  mecanico: {
+    cardBg: 'bg-card',
+    cardBorder: 'border-amber-500/20',
+    cardHoverBorder: 'hover:border-amber-500/50',
+    iconBg: 'bg-amber-500/10',
+    iconColor: 'text-amber-500',
+    iconHoverBg: 'group-hover:bg-amber-500',
+    accentGradient: 'from-amber-500/5 to-transparent',
+  },
+  cliente: {
+    cardBg: 'bg-card',
+    cardBorder: 'border-emerald-500/20',
+    cardHoverBorder: 'hover:border-emerald-500/50',
+    iconBg: 'bg-emerald-500/10',
+    iconColor: 'text-emerald-500',
+    iconHoverBg: 'group-hover:bg-emerald-500',
+    accentGradient: 'from-emerald-500/5 to-transparent',
+  },
+};
+
 const roleFeatures = {
   administrador: {
     title: 'Administrador',
@@ -162,16 +202,6 @@ const roleFeatures = {
   },
 };
 
-// Calendar mock data
-const calendarAppointments = [
-  { day: 15, time: '10:00', client: 'María García López', vehicle: 'Honda Civic 2022', color: 'bg-primary/80' },
-  { day: 15, time: '14:30', client: 'Carlos Mendoza', vehicle: 'Toyota Camry 2021', color: 'bg-status-approval' },
-  { day: 22, time: '09:00', client: 'Ana Rodríguez', vehicle: 'Nissan Sentra 2023', color: 'bg-status-progress' },
-  { day: 22, time: '11:00', client: 'Roberto Sánchez', vehicle: 'Ford Focus 2020', color: 'bg-primary/80' },
-  { day: 22, time: '16:00', client: 'Laura Martínez', vehicle: 'Mazda 3 2022', color: 'bg-status-approval' },
-  { day: 8, time: '10:30', client: 'Pedro Jiménez', vehicle: 'VW Jetta 2021', color: 'bg-status-progress' },
-];
-
 // Animation variants
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -194,7 +224,9 @@ const itemVariants = {
 
 const FeaturesPage = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('administrador');
+  const [activeTab, setActiveTab] = useState<keyof typeof roleThemes>('administrador');
+
+  const currentTheme = roleThemes[activeTab];
 
   return (
     <div className="min-h-screen bg-background">
@@ -265,7 +297,7 @@ const FeaturesPage = () => {
       {/* Role-based Features */}
       <section className="pb-24">
         <div className="container mx-auto px-4">
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as keyof typeof roleThemes)} className="w-full">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -274,25 +306,25 @@ const FeaturesPage = () => {
               <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-4 mb-12 p-1 bg-muted/50 backdrop-blur">
                 <TabsTrigger 
                   value="administrador" 
-                  className="text-xs sm:text-sm data-[state=active]:bg-card data-[state=active]:shadow-md transition-all duration-300"
+                  className="text-xs sm:text-sm data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:shadow-md transition-all duration-300"
                 >
                   🏢 Administrador
                 </TabsTrigger>
                 <TabsTrigger 
                   value="asesor" 
-                  className="text-xs sm:text-sm data-[state=active]:bg-card data-[state=active]:shadow-md transition-all duration-300"
+                  className="text-xs sm:text-sm data-[state=active]:bg-blue-500/10 data-[state=active]:text-blue-600 data-[state=active]:shadow-md transition-all duration-300"
                 >
                   💼 Asesor
                 </TabsTrigger>
                 <TabsTrigger 
                   value="mecanico" 
-                  className="text-xs sm:text-sm data-[state=active]:bg-card data-[state=active]:shadow-md transition-all duration-300"
+                  className="text-xs sm:text-sm data-[state=active]:bg-amber-500/10 data-[state=active]:text-amber-600 data-[state=active]:shadow-md transition-all duration-300"
                 >
                   🔧 Mecánico
                 </TabsTrigger>
                 <TabsTrigger 
                   value="cliente" 
-                  className="text-xs sm:text-sm data-[state=active]:bg-card data-[state=active]:shadow-md transition-all duration-300"
+                  className="text-xs sm:text-sm data-[state=active]:bg-emerald-500/10 data-[state=active]:text-emerald-600 data-[state=active]:shadow-md transition-all duration-300"
                 >
                   👤 Cliente
                 </TabsTrigger>
@@ -300,57 +332,58 @@ const FeaturesPage = () => {
             </motion.div>
             
             <AnimatePresence mode="wait">
-              {Object.entries(roleFeatures).map(([key, role]) => (
-                <TabsContent key={key} value={key}>
-                  <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    transition={{ duration: 0.4, ease: "easeOut" }}
-                  >
-                    {/* Role Header */}
-                    <motion.div 
-                      className="text-center mb-12"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.1 }}
+              {Object.entries(roleFeatures).map(([key, role]) => {
+                const theme = roleThemes[key as keyof typeof roleThemes];
+                return (
+                  <TabsContent key={key} value={key}>
+                    <motion.div
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                      transition={{ duration: 0.4, ease: "easeOut" }}
                     >
-                      <h2 className="text-2xl font-bold text-foreground mb-2">{role.title}</h2>
-                      <p className="text-primary font-medium mb-3">{role.subtitle}</p>
-                      <p className="max-w-2xl mx-auto text-muted-foreground">{role.description}</p>
-                    </motion.div>
-                    
-                    {/* Features Grid */}
-                    <motion.div 
-                      className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
-                      variants={containerVariants}
-                      initial="hidden"
-                      animate="visible"
-                    >
-                      {role.features.map((feature, index) => (
-                        <motion.div
-                          key={feature.title}
-                          variants={itemVariants}
-                          whileHover="hover"
-                          initial="rest"
-                          animate="rest"
-                          className="group rounded-xl border border-border bg-card p-6 transition-all duration-300 hover:border-primary/30 hover:shadow-xl cursor-pointer"
-                        >
-                          <motion.div 
-                            className="h-12 w-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4 transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground"
-                            whileHover={{ scale: 1.1, rotate: 5 }}
-                            transition={{ type: "spring", stiffness: 400 }}
+                      {/* Role Header */}
+                      <motion.div 
+                        className="text-center mb-12"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.1 }}
+                      >
+                        <h2 className="text-2xl font-bold text-foreground mb-2">{role.title}</h2>
+                        <p className={`font-medium mb-3 ${theme.iconColor}`}>{role.subtitle}</p>
+                        <p className="max-w-2xl mx-auto text-muted-foreground">{role.description}</p>
+                      </motion.div>
+                      
+                      {/* Features Grid */}
+                      <motion.div 
+                        className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate="visible"
+                      >
+                        {role.features.map((feature) => (
+                          <motion.div
+                            key={feature.title}
+                            variants={itemVariants}
+                            whileHover={{ scale: 1.02, y: -4 }}
+                            className={`group rounded-xl border ${theme.cardBorder} ${theme.cardHoverBorder} ${theme.cardBg} p-6 transition-all duration-300 hover:shadow-xl cursor-pointer bg-gradient-to-br ${theme.accentGradient}`}
                           >
-                            <feature.icon className="h-6 w-6" />
+                            <motion.div 
+                              className={`h-12 w-12 rounded-xl ${theme.iconBg} ${theme.iconColor} flex items-center justify-center mb-4 transition-all duration-300 ${theme.iconHoverBg} group-hover:text-white`}
+                              whileHover={{ scale: 1.1, rotate: 5 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <feature.icon className="h-6 w-6" />
+                            </motion.div>
+                            <h3 className="text-lg font-semibold text-foreground mb-2">{feature.title}</h3>
+                            <p className="text-sm text-muted-foreground">{feature.description}</p>
                           </motion.div>
-                          <h3 className="text-lg font-semibold text-foreground mb-2">{feature.title}</h3>
-                          <p className="text-sm text-muted-foreground">{feature.description}</p>
-                        </motion.div>
-                      ))}
+                        ))}
+                      </motion.div>
                     </motion.div>
-                  </motion.div>
-                </TabsContent>
-              ))}
+                  </TabsContent>
+                );
+              })}
             </AnimatePresence>
           </Tabs>
         </div>
@@ -394,15 +427,26 @@ const FeaturesPage = () => {
                     'Colores por estado para identificación rápida',
                     'Detalles del vehículo en cada tarjeta',
                     'Historial de cambios de estado',
-                  ].map((item) => (
-                    <li key={item} className="flex items-center gap-2 text-sm">
+                  ].map((item, index) => (
+                    <motion.li 
+                      key={item} 
+                      className="flex items-center gap-2 text-sm"
+                      initial={{ opacity: 0, x: -10 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.1 }}
+                    >
                       <Zap className="h-4 w-4 text-primary" />
                       <span>{item}</span>
-                    </li>
+                    </motion.li>
                   ))}
                 </ul>
               </div>
-              <div className="rounded-xl border border-border bg-card p-4 shadow-lg">
+              <motion.div 
+                className="rounded-xl border border-border bg-card p-4 shadow-lg"
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.3 }}
+              >
                 {/* Kanban Mockup */}
                 <div className="grid grid-cols-5 gap-2">
                   {[
@@ -411,23 +455,34 @@ const FeaturesPage = () => {
                     { name: 'En Progreso', color: 'bg-green-500', count: 3 },
                     { name: 'Calidad', color: 'bg-primary', count: 1 },
                     { name: 'Listo', color: 'bg-emerald-500', count: 2 },
-                  ].map((col) => (
-                    <div key={col.name} className="rounded-lg bg-muted/50 p-2">
+                  ].map((col, colIndex) => (
+                    <motion.div 
+                      key={col.name} 
+                      className="rounded-lg bg-muted/50 p-2"
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: colIndex * 0.1 }}
+                    >
                       <div className="flex items-center justify-between mb-2">
                         <div className={`h-2 w-2 rounded-full ${col.color}`} />
                         <span className="text-[10px] text-muted-foreground">{col.count}</span>
                       </div>
                       <p className="text-[10px] font-medium mb-2 truncate">{col.name}</p>
                       {Array.from({ length: col.count }).map((_, i) => (
-                        <div key={i} className="rounded bg-card border border-border p-2 mb-1">
+                        <motion.div 
+                          key={i} 
+                          className="rounded bg-card border border-border p-2 mb-1"
+                          whileHover={{ scale: 1.05 }}
+                        >
                           <div className="h-2 w-12 rounded bg-muted mb-1" />
                           <div className="h-2 w-8 rounded bg-muted/50" />
-                        </div>
+                        </motion.div>
                       ))}
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
-              </div>
+              </motion.div>
             </div>
           </motion.div>
           

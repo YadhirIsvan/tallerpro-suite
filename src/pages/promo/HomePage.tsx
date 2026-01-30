@@ -4,7 +4,6 @@ import { ArrowRight, Play, CheckCircle, Star, Users, TrendingUp, Clock } from 'l
 import { useNavigate } from 'react-router-dom';
 import { PromoNavbar } from '@/components/promo/PromoNavbar';
 import { PromoFooter } from '@/components/promo/PromoFooter';
-import { VideoSection } from '@/components/promo/VideoSection';
 
 const stats = [
   { number: '500+', label: 'Talleres activos', icon: Users },
@@ -229,9 +228,6 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-
-      {/* Video Section */}
-      <VideoSection />
       
       {/* What is autotronia.com Section */}
       <section className="py-24">
